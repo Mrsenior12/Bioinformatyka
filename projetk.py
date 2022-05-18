@@ -1,11 +1,22 @@
 from random import randint
+import random
+import string
+
 mutationStrenght = 20
 MUTATIONP_ROB = 5
 DNA_PROB = 30
 
-def readFromFile():
+def createFile():
+    l = ['A', 'C', 'G', 'T']
+    with open('dna.txt', 'w') as f:
+        for i in range(randint(100,400)):
+            for j in range(10):
+                f.write(l[randint(0,3)])
+            f.write("\n")
+
+def readFromFile(file):
     lista =''
-    with open('dna.txt') as f:
+    with open(file) as f:
         lista = f.read().splitlines()
     
     return lista
@@ -25,6 +36,6 @@ def mutation(lista):
     #return lista
 
 
-
-dna = readFromFile()
+#startFile = createFile()
+dna = readFromFile('dna.txt')
 mutation([dna])
