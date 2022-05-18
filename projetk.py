@@ -21,6 +21,16 @@ def readFromFile(file):
     
     return lista
 
+def firstPopulation(lista):
+    tmpList = lista.copy()
+    tmpList.sort()
+    for i in range(5):
+        lista[i] = tmpList[i]
+    for i in range(6, len(lista)-1):
+        lista[i] = tmpList[randint(5, len(lista))]
+    return lista
+
+
 def mutation(lista):
     for ind in range(len(lista)):
         dna = lista[ind]
@@ -38,4 +48,5 @@ def mutation(lista):
 
 #startFile = createFile()
 dna = readFromFile('dna.txt')
-mutation([dna])
+population = firstPopulation(dna)
+mutation([population])
