@@ -42,7 +42,7 @@ def fill_matrix(matrix,spectrum,length_of_spectrum):
     return matrix
 
 #combine oligonucleotides if its possible
-def combine_oligonucleotide(oligonucleotide):
+"""def combine_oligonucleotide(oligonucleotide):
     for row in range(len(oligonucleotide)):
         for column in range(row,len(oligonucleotide)):
             if(index_matches(oligonucleotide[row],oligonucleotide[column])):
@@ -52,7 +52,7 @@ def combine_oligonucleotide(oligonucleotide):
                 oligonucleotide.pop(row)
                 oligonucleotide.insert(0,left_oli[:-1]+right_oli)
                 return oligonucleotide
-    return []
+    return []"""
 
 #find pairs of oligonucleotide with one entrance
 def find_oligonucleotide_with_one_entrance(matrix,length_of_spectrum):
@@ -87,13 +87,12 @@ def matrix_to_dict(matrix):
 
 def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
     optimized_matrix = []
-    while(True):
-        current_oligonucleotide = combine_oligonucleotide(oligonucleotide_pair)
-        if(current_oligonucleotide):
-            optimized_matrix = oligonucleotide_pair
-        else:
-            break
-
+    #while(True):
+    #    current_oligonucleotide = combine_oligonucleotide(oligonucleotide_pair)
+    #    if(current_oligonucleotide):
+    #        optimized_matrix = oligonucleotide_pair
+    #    else:
+    #        break
     oligonucleotides_without_pair = []
     for row in range(length_of_spectrum):
         if(not(any(row in pair for pair in oligonucleotide_pair))):
@@ -105,7 +104,10 @@ def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
     seqs = []
     for pairs in oligonucleotide_pair:
         seq = spectrum[pairs[0]]
+        ### Dodać łączenie oligonukleotyd
         for row in range(1,len(pairs)):
+           # if(seq[pairs[0]][-1] == seq[pairs[1]][0]):
+           #     seq += 
             seq += spectrum[pairs[row]][-1]
         seqs.append(seq)
     
