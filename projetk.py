@@ -1,7 +1,11 @@
+from numpy.random import rand
+
 import DNAMatrix as DNAMatrix
 import DNAReadWrite as ReadWrite
 
 from random import randint
+import numpy
+import ga
 
 mutationStrenght = 20
 MUTATIONP_ROB = 5
@@ -56,8 +60,19 @@ def tournament(dnaList,tournamentSize = 2):
 
     return result
 
+
+def crossover(p1, p2, r_cross):
+    c1, c2 = p1.copy(), p2.copy()
+    if rand() < r_cross:
+        # select crossover point that is not on the end of the string
+        pt = randint(1, len(p1)-2)
+        c1 = p1[:pt] + p2[pt:]
+        c2 = p2[:pt] + p1[pt:]
+    return [c1, c2]
+
 print(tournament([[1,2,3],[2,2,2],[3,3,3],[0,8,7,3],[9,9,9,9,9]]))
 
+print(crossover([1,2,3],[3,4,5],0.9))
 #startFile = createFile()
 #dna = readFromFile('dna.txt')
 #population = firstPopulation(dna)
