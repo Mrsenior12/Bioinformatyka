@@ -115,3 +115,8 @@ def optimize_graph(spectrum):
     print(filled_matrix)
     dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix,len(spectrum))
     return optimize_matrix(dst_matches,spectrum,len(spectrum))
+
+def calcDifference(stringA, stringB, difference=0):
+    if stringA[difference:] == stringB[:len(stringB) - difference]:
+        return difference
+    return calcDifference(stringA, stringB, difference + 1)
