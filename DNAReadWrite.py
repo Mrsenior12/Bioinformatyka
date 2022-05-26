@@ -4,7 +4,7 @@ def createFile():
     l = ['A', 'C', 'G', 'T']
     with open('dna.txt', 'w') as f:
         for i in range(randint(100,400)):
-            for j in range(10):
+            for j in range(4):
                 f.write(l[randint(0,3)])
             f.write("\n")
 
@@ -14,4 +14,11 @@ def readFromFile(file):
         oligoList = f.read().splitlines()
     
     return oligoList
+
+createFile()
+
+"""
+Błędy pozytywne - dodanie oligonukleotydów do spektum
+Błędy negatywne - wywalenie K oligonukleotyd ze spektrum
+"""
 
