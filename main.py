@@ -20,9 +20,12 @@ def main():
     spectrum = ['aaaa','abcd','asdd','wead','adqa','aaaa','abcd','asdd','wead','adqa','aaaa','abcd','asdd','wead','adqa']
     return_creeated = DNAMatrix.optimize_graph(spectrum)
 
+
     spectrum = return_creeated[0]
     graph = return_creeated[1]
+    
     population_List = Modi.Population(spectrum)
+
 
     best_dna = 99999999
 

@@ -110,12 +110,11 @@ def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
 
     optimized_matrix = matrix_to_list(seqs)
     #zwracać liste [[klucz, element],... ]
-    return [i for i in optimized_matrix.values()]
+    return [[key,value] for key,value in optimized_matrix.items()]
 
 def optimize_graph(spectrum):
     matrix = create_matrix(len(spectrum))
     filled_matrix=fill_matrix(matrix,spectrum,len(spectrum))
-    print(filled_matrix)
 
     dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix,len(spectrum))
     oligonucleotids = optimize_matrix(dst_matches,spectrum,len(spectrum))
