@@ -15,10 +15,19 @@ def readFromFile(file):
     
     return oligoList
 
-createFile()
+def negative_error(spectrum,count_oligonucleotides = 10):
+    for i in range(count_oligonucleotides):
+        index_to_delete = randint(0,len(spectrum)-1)
+        spectrum.pop(index_to_delete)
 
-"""
-Błędy pozytywne - dodanie oligonukleotydów do spektum
-Błędy negatywne - wywalenie K oligonukleotyd ze spektrum
-"""
+    return spectrum
 
+def positive_error(spectrum,count_oligonucleotides = 10):
+    lenght_of_oli = len(spectrum[0])
+    possible_amino = ['A', 'C', 'G', 'T']
+    for oli in range(count_oligonucleotides):
+        oligonucleotide = ''
+        for element in range(lenght_of_oli):
+            oligonucleotide += possible_amino[randint(0,3)]
+        spectrum.append(oligonucleotide)
+    return(spectrum)

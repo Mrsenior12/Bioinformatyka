@@ -7,9 +7,9 @@ def create_matrix(length_of_spectrum):
 
 #check if last n-1 elements of first oligonucleotide 
 #match first n-1 ements of secound oligonucleotide
-def perfect_match(left_oli, right_oli):
-    r = len(right_oli)
-    return True if(left_oli[1:] == right_oli[:r-1]) else False
+#def perfect_match(left_oli, right_oli):
+#    r = len(right_oli)
+#    return True if(left_oli[1:] == right_oli[:r-1]) else False
 
 #check if last element of first oligonucleotide 
 #match first element of second oligonucleotide
@@ -17,16 +17,16 @@ def index_matches(left_list,right_list):
     return True if(left_list[-1] == right_list[0]) else False
 
 #find shift value of oligonucleotide
-"""
-def find_shift(first,second):
-    if(perfect_match(first,second)):
-        return 1
-    else:
-        for shift in range(2,len(first)-1):
-            if(first[shift:] == second[:len(second)-shift]):
-                return shift
-    return 0
-"""
+
+#def find_shift(first,second):
+    #if(perfect_match(first,second)):
+    #    return 1
+    #else:
+    #for shift in range(1,len(first)):
+    #    if(first[shift:] == second[:len(second)-shift]):
+    #        return shift
+    #return 0
+
 
 #fill created matrix with values of shifts
 def fill_matrix(matrix,spectrum,length_of_spectrum):
@@ -35,8 +35,8 @@ def fill_matrix(matrix,spectrum,length_of_spectrum):
             if(row == column):
                 continue
             else:
-                matrix[row][column] = calcDifference(spectrum[row],spectrum[column])#find_shift(spectrum[row],spectrum[column])
-
+                matrix[row][column] = calcDifference(spectrum[row],spectrum[column])
+                #find_shift(spectrum[row],spectrum[column])
     return matrix
 
 #combine oligonucleotides if its possible
@@ -81,7 +81,6 @@ def find_oligonucleotide_with_one_entrance(matrix,length_of_spectrum):
 #Convert matrix to dictionary
 def matrix_to_list(matrix):
     return {key: matrix[key] for key in range(0,len(matrix))}
-    #return [matrix[oli] for oli in range(0,len(matrix))]
 
 def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
     optimized_matrix = []
@@ -109,7 +108,6 @@ def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
         seqs.append(seq)
 
     optimized_matrix = matrix_to_list(seqs)
-    #zwracać liste [[klucz, element],... ]
     return [[key,value] for key,value in optimized_matrix.items()]
 
 def optimize_graph(spectrum):
@@ -118,10 +116,9 @@ def optimize_graph(spectrum):
 
     dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix,len(spectrum))
     oligonucleotids = optimize_matrix(dst_matches,spectrum,len(spectrum))
-    return (oligonucleotids,fill_matrix(matrix,oligonucleotids,len(oligonucleotids)))
+    return (oligonucleotids,filled_matrix)
 
 def calcDifference(stringA, stringB, difference=0):
     if stringA[difference:] == stringB[:len(stringB) - difference]:
         return difference
     return calcDifference(stringA, stringB, difference + 1)
-
