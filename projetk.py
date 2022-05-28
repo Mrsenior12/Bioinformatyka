@@ -34,15 +34,16 @@ def mutation(dnaList,mutationStrenght):
 
 def count_path(graph,dna):
     path_distance = 0
-    starting = dna[0]
+    starting = dna[0][0]
 
-    for oli in range(len(dna) - 1):
-        path_distance += graph[starting][dna[oli+1]]
-        starting = dna[oli+1]
+    for oli in range(len(dna)-1):
+        path_distance += graph[starting][dna[oli+1][0]]
+        starting = dna[oli+1][0]
     
     return path_distance
 
-def tournament(dnaList,graph,tournamentSize = 2):
+def tournament(ori_dna_list,graph,tournamentSize = 2):
+    dnaList = ori_dna_list[:]
     result = []
     participantList = []
 
@@ -57,7 +58,7 @@ def tournament(dnaList,graph,tournamentSize = 2):
             tournament_result.append([participant_ind ,count_path(graph,dnaList[participant_ind])])
         
         tournament_result_sorted = sorted(tournament_result,key=lambda x:x[1])
-    
+        result.append(ori_dna_list[tournament_result_sorted[0][0]])
 
     # Add to result list DNA strings which didn't take part in tournament
     if len(dnaList)%tournamentSize != 0: 
@@ -76,7 +77,7 @@ def crossover(p1, p2, r_cross=0.75):
         c2 = p2[:pt] + p1[pt:]
     return [c1, c2]
 
-#print(tournament([[1,2,3],[2,2,2],[3,3,3],[0,8,7,3],[9,9,9,9,9]]))
+
 
 #print(crossover([1,2,3],[3,4,5],0.9))
 #startFile = createFile()

@@ -1,7 +1,6 @@
 from ast import Mod
 from pickletools import optimize
 
-from torch import randint
 import DNAMatrix as DNAMatrix
 import DNAReadWrite as ReadWrite
 import projetk as Modi
@@ -43,9 +42,10 @@ def main():
             population_List.append(new_population[0])
             population_List.append(new_population[1])
         
-       # if iteration%4 == 0 and iteration != 0:
-       #     population_List = Modi.tournament(population_List,graph)
-
+        if iteration%4 == 0 and iteration != 0:
+            print(len(population_List))
+            population_List = Modi.tournament(population_List,graph)
+            print(len(population_List))
 
 
 main()
