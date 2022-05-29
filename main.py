@@ -20,10 +20,10 @@ class WrongTypeOfError(Error):
 
 def main(error_type):
 
-    #spectrum = ReadWrite.readFromFile("dna.txt")
+    spectrum = ReadWrite.readFromFile("dna.txt")
     #spectrum = ['aaaa','abcd','asdd','wead','adqa','aaaa','abcd','asdd','wead','adqa','aaaa','abcd','asdd','wead','adqa']
     
-    spectrum = ['ACGTAA','AGGTCC']
+    #spectrum = ['ACGTAA','AGGTCC']
     if error_type == 'POSITIVE':
         spectrum = ReadWrite.positive_error(spectrum)
     elif error_type == 'NEGATIVE':
@@ -44,9 +44,11 @@ def main(error_type):
     best_dna_string = []
     best_dna_lenght = 999999999
 
-    for iteration in range(1,25):
-        population_List = Modi.mutation(population_List,mutationStrenght=15)
-        
+    mutationStrenght = 15
+    without_change = 0
+    for iteration in range(1,10000):
+        population_List = Modi.mutation(population_List,mutationStrenght)
+        if (iteration%500 == 0 and mutationStrenght > 0): mutationStrenght -= 1
         for cross_count in range(randint(10,len(spectrum))):
             first_ind = randint(0,len(population_List)-1)
             second_ind = randint(0,len(population_List)-1)
@@ -58,16 +60,23 @@ def main(error_type):
             population_List.append(new_population[0])
             population_List.append(new_population[1])
         
-        if(iteration%5==0):
+        if(iteration%50==0):
+            print("zaczynam turniej {}".format(len(population_List)))
             tournament_result = Modi.tournament(population_List,graph)
             population_List = tournament_result[0]
-            if tournament_result[1] < best_dna_lenght:
-                print("zmieniam z {} na {}".format(best_dna_lenght,tournament_result[1]))
+            print("koncze turniej {}".format(len(population_List)))
+            if tournament_result[1] == best_dna_lenght:
+                without_change += 1
+            elif tournament_result[1] < best_dna_lenght:
+                #print("zmieniam z {} na {}".format(best_dna_lenght,tournament_result[1]))
                 best_dna_lenght = tournament_result[1]
                 best_dna_string = tournament_result[2]
+                without_change = 0
+        if without_change == 10:
+            break
     
-    for i in graph:
-        print(i)
+    #for i in graph:
+    #    print(i)
     print("dna reconstruction with lowest shift lenght: {} {}".format(best_dna_lenght,best_dna_string))
 if __name__ == "__main__":
     try:

@@ -1,4 +1,3 @@
-from importlib_metadata import Pair
 from numpy.random import rand
 from random import randint, random
 import numpy
@@ -8,17 +7,17 @@ DNA_PROB = 100
 
 def Population(lista):
     population_list = []
+    
     for i in range(20):
         tmpList = lista[:]
         tmpList.sort()
         dna = []
         dna.append(tmpList[0])
-        for i in range(1, len(lista)-1):
+        for i in range(1, len(lista)):
             random_oli = randint(1, len(tmpList)-1)
             dna.append(tmpList[random_oli])
-            print(tmpList[random_oli])
             tmpList.remove(tmpList[random_oli])
-        print("stwrzylem nic")
+
         population_list.append(dna)
     return population_list
 
