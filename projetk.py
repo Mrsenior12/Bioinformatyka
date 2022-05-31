@@ -1,3 +1,4 @@
+from debugpy import listen
 from numpy.random import rand
 from random import randint, random
 import numpy
@@ -72,15 +73,30 @@ def tournament(dnaList,graph,tournamentSize = 2):
 
     return (result, best_lenght, best_participant)
 
-def crossover(p1, p2, r_cross=0.75):
-    c1, c2 = p1[:], p2[:]
-    if random() < r_cross:
-        # select crossover point that is not on the end of the string
-        pt = randint(1, len(p1)-2)
-        c1 = p1[:pt] + p2[pt:]
-        c2 = p2[:pt] + p1[pt:]
-    return [c1, c2]
+def tournament_for_crossover(graph,participant_list):
+    tournament_results = []
+    for participant in participant_list:
+        tournament_results.append([participant,count_path(graph,participant)])
+    tournament_results_sorted = sorted(tournament_results,key=lambda x:x[1])
 
+    result_list = [tournament_results_sorted[i][0] for i in range(4)]
+    return result_list
+
+def crossover(graph,selected_dna, r_cross=0.75):
+    to_crossover = tournament_for_crossover(graph,selected_dna)
+    crossover_list = []
+    for pair in range(len(to_crossover)//2):
+        dna1 = to_crossover[pair*2]
+        dna2 = to_crossover[pair*2+1]
+        if random() < r_cross:
+            # select crossover point that is not on the end of the string
+            pt = randint(1, len(dna1)-2)
+            c1 = dna1[:pt] + dna2[pt:]
+            c2 = dna2[:pt] + dna1[pt:]
+            crossover_list.append(c1)
+            crossover_list.append(c2)
+
+    return crossover_list
 
 
 #print(crossover([1,2,3],[3,4,5],0.9))
