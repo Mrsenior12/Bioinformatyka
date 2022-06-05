@@ -37,6 +37,7 @@ def main(error_type):
 
     spectrum = return_creeated[0]
     graph = return_creeated[1]
+    superposition = return_creeated[2]
 
     population_List = Modi.Population(spectrum)
 
@@ -46,9 +47,9 @@ def main(error_type):
 
     mutationStrenght = 15
     without_change = 0
-    for iteration in range(1,10000):
+    for iteration in range(1,1000):
         population_List = Modi.mutation(population_List,mutationStrenght)
-        if (iteration%500 == 0 and mutationStrenght > 0): mutationStrenght -= 1
+        if (iteration%200 == 0 and mutationStrenght > 0): mutationStrenght -= 1
         for cross_count in range(randint(10,len(spectrum))):
             first_ind = randint(0,len(population_List)-1)
             second_ind = randint(0,len(population_List)-1)
@@ -78,6 +79,7 @@ def main(error_type):
     #for i in graph:
     #    print(i)
     print("dna reconstruction with lowest shift lenght: {} {}".format(best_dna_lenght,best_dna_string))
+    print("\n number of perfect impositions: ", superposition)
 if __name__ == "__main__":
     try:
         if len(argv)-1 == 1:

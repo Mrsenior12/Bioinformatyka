@@ -30,14 +30,17 @@ def index_matches(left_list,right_list):
 
 #fill created matrix with values of shifts
 def fill_matrix(matrix,spectrum,length_of_spectrum):
+    superposition = 0
     for row in range(length_of_spectrum):
         for column in range(length_of_spectrum):
             if(row == column):
                 continue
             else:
                 matrix[row][column] = calcDifference(spectrum[row],spectrum[column])
+                if (matrix[row][column] == 1):
+                    superposition += 1
                 #find_shift(spectrum[row],spectrum[column])
-    return matrix
+    return matrix, superposition
 
 #combine oligonucleotides if its possible
 def find_match(oligonucleotide):
@@ -112,11 +115,11 @@ def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
 
 def optimize_graph(spectrum):
     matrix = create_matrix(len(spectrum))
-    filled_matrix=fill_matrix(matrix,spectrum,len(spectrum))
+    filled_matrix, superposition=fill_matrix(matrix,spectrum,len(spectrum))
 
     dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix,len(spectrum))
     oligonucleotids = optimize_matrix(dst_matches,spectrum,len(spectrum))
-    return (oligonucleotids,filled_matrix)
+    return oligonucleotids,filled_matrix,superposition
 
 def calcDifference(stringA, stringB, difference=0):
     if stringA[difference:] == stringB[:len(stringB) - difference]:
