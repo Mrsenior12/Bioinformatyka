@@ -17,7 +17,6 @@ class WrongTypeOfError(Error):
     pass
 
 
-
 def main(error_type):
 
     spectrum = ReadWrite.readFromFile("dna.txt")

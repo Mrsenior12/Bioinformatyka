@@ -1,4 +1,3 @@
-
 MAX_SHIFT = 3
 
 #Create N*N matrix with 0
