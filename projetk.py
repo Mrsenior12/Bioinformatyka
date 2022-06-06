@@ -3,8 +3,8 @@ from numpy.random import rand
 from random import randint, random
 import numpy
 
-MUTATION_PROB = 100
-DNA_PROB = 100
+MUTATION_PROB = 50
+DNA_PROB = 25
 
 def Population(lista):
     population_list = []
@@ -82,21 +82,22 @@ def tournament_for_crossover(graph,participant_list):
     result_list = [tournament_results_sorted[i][0] for i in range(4)]
     return result_list
 
-def crossover(graph,selected_dna, r_cross=0.75):
-    to_crossover = tournament_for_crossover(graph,selected_dna)
+def crossover(left,rigth, r_cross=0.75):
+    dna1 = left[:]
+    dna2 = rigth[:]
+    """to_crossover = tournament_for_crossover(graph,selected_dna)
     crossover_list = []
     for pair in range(len(to_crossover)//2):
         dna1 = to_crossover[pair*2]
-        dna2 = to_crossover[pair*2+1]
-        if random() < r_cross:
-            # select crossover point that is not on the end of the string
-            pt = randint(1, len(dna1)-2)
-            c1 = dna1[:pt] + dna2[pt:]
-            c2 = dna2[:pt] + dna1[pt:]
-            crossover_list.append(c1)
-            crossover_list.append(c2)
+        dna2 = to_crossover[pair*2+1]"""
 
-    return crossover_list
+    if random() < r_cross:
+        # select crossover point that is not on the end of the string
+        pt = randint(1, len(dna1)-2)
+        c1 = left[:pt] + rigth[pt:]
+        c2 = rigth[:pt] + left[pt:]
+
+    return [dna1,dna2]
 
 
 #print(crossover([1,2,3],[3,4,5],0.9))
