@@ -1,101 +1,108 @@
 MAX_SHIFT = 3
 
-#Create N*N matrix with 0
-def create_matrix(length_of_spectrum):
-    return [[0]*length_of_spectrum for row in range(length_of_spectrum)]
 
-#check if last n-1 elements of first oligonucleotide 
-#match first n-1 ements of secound oligonucleotide
-#def perfect_match(left_oli, right_oli):
+# Create N*N matrix with 0
+def create_matrix(length_of_spectrum):
+    return [[0] * length_of_spectrum for row in range(length_of_spectrum)]
+
+
+# check if last n-1 elements of first oligonucleotide
+# match first n-1 ements of secound oligonucleotide
+# def perfect_match(left_oli, right_oli):
 #    r = len(right_oli)
 #    return True if(left_oli[1:] == right_oli[:r-1]) else False
 
-#check if last element of first oligonucleotide 
-#match first element of second oligonucleotide
-def index_matches(left_list,right_list):
-    return True if(left_list[-1] == right_list[0]) else False
-
-#find shift value of oligonucleotide
-
-#def find_shift(first,second):
-    #if(perfect_match(first,second)):
-    #    return 1
-    #else:
-    #for shift in range(1,len(first)):
-    #    if(first[shift:] == second[:len(second)-shift]):
-    #        return shift
-    #return 0
+# check if last element of first oligonucleotide
+# match first element of second oligonucleotide
+def index_matches(left_list, right_list):
+    return True if (left_list[-1] == right_list[0]) else False
 
 
-#fill created matrix with values of shifts
-def fill_matrix(matrix,spectrum,length_of_spectrum):
+# find shift value of oligonucleotide
+
+# def find_shift(first,second):
+# if(perfect_match(first,second)):
+#    return 1
+# else:
+# for shift in range(1,len(first)):
+#    if(first[shift:] == second[:len(second)-shift]):
+#        return shift
+# return 0
+
+
+# fill created matrix with values of shifts
+def fill_matrix(matrix, spectrum, length_of_spectrum):
     superposition = 0
     for row in range(length_of_spectrum):
         for column in range(length_of_spectrum):
-            if(row == column):
+            if (row == column):
                 continue
             else:
-                matrix[row][column] = calcDifference(spectrum[row],spectrum[column])
+                matrix[row][column] = calcDifference(spectrum[row], spectrum[column])
                 if (matrix[row][column] == 1):
                     superposition += 1
-                #find_shift(spectrum[row],spectrum[column])
+                # find_shift(spectrum[row],spectrum[column])
     return matrix, superposition
 
-#combine oligonucleotides if its possible
+
+# combine oligonucleotides if its possible
 def find_match(oligonucleotide):
     for row in range(len(oligonucleotide)):
-        for column in range(row,len(oligonucleotide)):
-            if(index_matches(oligonucleotide[row],oligonucleotide[column])):
+        for column in range(row, len(oligonucleotide)):
+            if (index_matches(oligonucleotide[row], oligonucleotide[column])):
                 left_oli = oligonucleotide[row]
                 right_oli = oligonucleotide[column]
                 oligonucleotide.pop(column)
                 oligonucleotide.pop(row)
-                oligonucleotide.insert(0,left_oli[:-1]+right_oli)
+                oligonucleotide.insert(0, left_oli[:-1] + right_oli)
                 return oligonucleotide
     return []
 
-#find pairs of oligonucleotide with one entrance
-def find_oligonucleotide_with_one_entrance(matrix,length_of_spectrum):
+
+# find pairs of oligonucleotide with one entrance
+def find_oligonucleotide_with_one_entrance(matrix, length_of_spectrum):
     columns_to_eliminate = []
-    matching_oligonucleotide =[]
+    matching_oligonucleotide = []
     for row in range(length_of_spectrum):
-        if(sum(matrix[row]) == 1):
+        if (sum(matrix[row]) == 1):
             tmp_sum = tmp_ind = -1
             for element_in_row in matrix[row]:
-                if(element_in_row == 1):
+                if (element_in_row == 1):
                     tmp_ind = matrix[row].index(element_in_row)
                     break
 
-            if(tmp_ind in columns_to_eliminate):
+            if (tmp_ind in columns_to_eliminate):
                 break
 
-            #Check if there's only 1 connection to oligonucleotide
+            # Check if there's only 1 connection to oligonucleotide
             else:
                 for column in range(length_of_spectrum):
                     tmp_sum += matrix[column][tmp_ind]
-                if(tmp_sum == 0):
-                    matching_oligonucleotide.append([row,tmp_ind])
+                if (tmp_sum == 0):
+                    matching_oligonucleotide.append([row, tmp_ind])
                 else:
                     columns_to_eliminate.append(tmp_ind)
 
     return matching_oligonucleotide
 
-#Convert matrix to dictionary
-def matrix_to_list(matrix):
-    return {key: matrix[key] for key in range(0,len(matrix))}
 
-def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
+# Convert matrix to dictionary
+def matrix_to_list(matrix):
+    return {key: matrix[key] for key in range(0, len(matrix))}
+
+
+def optimize_matrix(oligonucleotide_pair, spectrum, length_of_spectrum):
     optimized_matrix = []
-    while(True):
+    while (True):
         current_oligonucleotide = find_match(oligonucleotide_pair)
-        if(current_oligonucleotide):
+        if (current_oligonucleotide):
             optimized_matrix = oligonucleotide_pair
         else:
             break
 
     oligonucleotides_without_pair = []
     for row in range(length_of_spectrum):
-        if(not(any(row in pair for pair in oligonucleotide_pair))):
+        if (not (any(row in pair for pair in oligonucleotide_pair))):
             oligonucleotides_without_pair.append(row)
 
     for element in oligonucleotides_without_pair:
@@ -105,22 +112,41 @@ def optimize_matrix(oligonucleotide_pair,spectrum,length_of_spectrum):
     for pairs in oligonucleotide_pair:
         seq = spectrum[pairs[0]]
         ### Dodać łączenie oligonukleotyd
-        for row in range(1,len(pairs)):
+        for row in range(1, len(pairs)):
             seq += spectrum[pairs[row]][-1]
         seqs.append(seq)
 
     optimized_matrix = matrix_to_list(seqs)
-    return [[key,value] for key,value in optimized_matrix.items()]
+    return [[key, value] for key, value in optimized_matrix.items()]
+
 
 def optimize_graph(spectrum):
     matrix = create_matrix(len(spectrum))
-    filled_matrix, superposition=fill_matrix(matrix,spectrum,len(spectrum))
+    filled_matrix, superposition = fill_matrix(matrix, spectrum, len(spectrum))
 
-    dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix,len(spectrum))
-    oligonucleotids = optimize_matrix(dst_matches,spectrum,len(spectrum))
-    return oligonucleotids,filled_matrix,superposition
+    dst_matches = find_oligonucleotide_with_one_entrance(filled_matrix, len(spectrum))
+    oligonucleotids = optimize_matrix(dst_matches, spectrum, len(spectrum))
+    return oligonucleotids, filled_matrix, superposition
+
 
 def calcDifference(stringA, stringB, difference=0):
     if stringA[difference:] == stringB[:len(stringB) - difference]:
         return difference
     return calcDifference(stringA, stringB, difference + 1)
+
+
+def calcSuperposition(list):
+    superposition = 0
+    for ind in range(len(list)):
+        dna = list[ind]
+    length_of_spectrum = len(dna)
+    matrix = create_matrix(length_of_spectrum)
+    for row in range(length_of_spectrum):
+        for column in range(length_of_spectrum):
+            if row == column:
+                continue
+            else:
+                matrix[row][column] = calcDifference(dna[row][1], dna[column][1])
+                if matrix[row][column] == 1:
+                    superposition += 1
+    return superposition
