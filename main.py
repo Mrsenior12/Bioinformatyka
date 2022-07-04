@@ -48,6 +48,7 @@ def main(error_type):
     without_change1 = 0
     without_change2 = 0
     for iteration in range(1,1000):
+        print(iteration)
         population_List = Modi.mutation(population_List,mutationStrenght)
         if (iteration%10 == 0 and mutationStrenght > 0):
             mutationStrenght -= 1
@@ -69,7 +70,7 @@ def main(error_type):
             else:
                  without_change2 += 1
 
-        if(iteration%50==0):
+        if(iteration%125==0):
             print("zaczynam turniej {}".format(len(population_List)))
             tournament_result = Modi.tournament(population_List,graph)
             population_List = tournament_result[0]

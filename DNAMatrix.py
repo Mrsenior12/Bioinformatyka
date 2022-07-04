@@ -8,9 +8,9 @@ def create_matrix(length_of_spectrum):
 
 # check if last n-1 elements of first oligonucleotide
 # match first n-1 ements of secound oligonucleotide
-# def perfect_match(left_oli, right_oli):
-#    r = len(right_oli)
-#    return True if(left_oli[1:] == right_oli[:r-1]) else False
+def perfect_match(left_oli, right_oli):
+    r = len(right_oli)
+    return True if(left_oli[1:] == right_oli[:r-1]) else False
 
 # check if last element of first oligonucleotide
 # match first element of second oligonucleotide
@@ -146,7 +146,8 @@ def calcSuperposition(list):
             if row == column:
                 continue
             else:
-                matrix[row][column] = calcDifference(dna[row][1], dna[column][1])
-                if matrix[row][column] == 1:
+                if(perfect_match(dna[row][1], dna[column][1])):
+                #matrix[row][column] = 1
+                #if matrix[row][column] == 1:
                     superposition += 1
     return superposition

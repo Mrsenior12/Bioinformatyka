@@ -82,7 +82,7 @@ def tournament_for_crossover(graph,participant_list):
     result_list = [tournament_results_sorted[i][0] for i in range(4)]
     return result_list
 
-def crossover(left,rigth, r_cross=0.75):
+def crossover(left,rigth, r_cross=0.35):
     dna1 = left[:]
     dna2 = rigth[:]
     """to_crossover = tournament_for_crossover(graph,selected_dna)
