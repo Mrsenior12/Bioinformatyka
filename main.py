@@ -47,7 +47,7 @@ def main(error_type):
     mutationStrenght = 15
     without_change1 = 0
     without_change2 = 0
-    for iteration in range(1,1000):
+    for iteration in range(1,3):
         print(iteration)
         population_List = Modi.mutation(population_List,mutationStrenght)
         if (iteration%10 == 0 and mutationStrenght > 0):
@@ -70,7 +70,7 @@ def main(error_type):
             else:
                  without_change2 += 1
 
-        if(iteration%125==0):
+        if(iteration%2==0):
             print("zaczynam turniej {}".format(len(population_List)))
             tournament_result = Modi.tournament(population_List,graph)
             population_List = tournament_result[0]
@@ -89,6 +89,7 @@ def main(error_type):
     #    print(i)
     print("dna reconstruction with lowest shift lenght: {} {}".format(best_dna_lenght,best_dna_string))
     print("\n number of perfect impositions: ", max_superposition)
+    print(Modi.count_occurances(best_dna_string))
 if __name__ == "__main__":
     try:
         if len(argv)-1 == 1:

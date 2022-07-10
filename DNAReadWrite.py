@@ -16,13 +16,16 @@ def readFromFile(file):
     return oligoList
 
 def negative_error(spectrum,count_oligonucleotides = 10):
+    print("Number of errors: {}".format(count_oligonucleotides))
     for i in range(count_oligonucleotides):
         index_to_delete = randint(0,len(spectrum)-1)
         spectrum.pop(index_to_delete)
 
+
     return spectrum
 
 def positive_error(spectrum,count_oligonucleotides = 10):
+    print("Number of errors: {}".format(count_oligonucleotides))
     lenght_of_oli = len(spectrum[0])
     possible_amino = ['A', 'C', 'G', 'T']
     for oli in range(count_oligonucleotides):

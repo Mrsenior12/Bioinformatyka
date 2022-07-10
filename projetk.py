@@ -99,6 +99,15 @@ def crossover(left,rigth, r_cross=0.35):
 
     return [dna1,dna2]
 
+def count_occurances(best_dna):
+    list_of_used_oligo = [elem[1] for elem in best_dna]
+    best_dict = {}
+    for word in list_of_used_oligo:
+        if word in best_dict:
+            best_dict[word] +=1
+        else:
+            best_dict[word] = 1
+    return best_dict
 
 #print(crossover([1,2,3],[3,4,5],0.9))
 #startFile = createFile()
